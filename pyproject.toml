@@ -1,0 +1,25 @@
+[project]
+name = "pypasteee"
+version = "0.0.1"
+authors = [
+  { name="m4kyu", email="m4kyu@proton.me" },
+]
+dependencies = [
+    "requests>=2.0.0,<3.0.0"
+]
+
+
+description = "A simple API wrapper for paste.ee "
+readme = "README.md"
+requires-python = ">=3.9"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Operating System :: OS Independent",
+]
+license = "MIT"
+license-files = ["LICEN[CS]E*"]
+
+[project.urls]
+Homepage = "https://github.com/m4kyu/pypasteee"
+Issues = "https://github.com/m4kyu/pypasteee/issues"
+
