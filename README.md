@@ -1,6 +1,6 @@
 # pypasteee
 
-A simple Python wrapper for the [paste.ee](https://paste.ee/)  
+A simple Python wrapper for the [paste.dev](https://paste.dev/)  
 
 
 ## Instalation 
