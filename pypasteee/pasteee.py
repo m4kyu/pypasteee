@@ -5,14 +5,14 @@ from .paste import Paste, Section
 
 
 class Pasteee:
+    API_ENDPOINT = 'https://api.pastee.dev'
+
     def __init__(self, token: str) -> None:
         assert Pasteee.verifyToken(token), 'ERROR: Ivalid API token provided'
+        
         self.token = token
-
         self.session = requests.Session()
         self.session.headers = {'X-Auth-Token': self.token}
-
-        
 
 
     def getPastesList(self, perpage: int = 25, page: int = 1) -> list[Paste]:
@@ -22,7 +22,7 @@ class Pasteee:
         }
 
 
-        response = self.session.get('https://api.paste.ee/v1/pastes', params=data)
+        response = self.session.get(f'{Pasteee.API_ENDPOINT}/v1/pastes', params=data)
         data = response.json()['data']
         
 
@@ -32,7 +32,7 @@ class Pasteee:
         return pastes
         
     def getPaste(self, id: str) -> Paste | None:
-        response = self.session.get(f'https://api.paste.ee/v1/pastes/{id}')
+        response = self.session.get(f'{Pasteee.API_ENDPOINT}/v1/pastes/{id}')
         if response.status_code == 404:
             return None
 
@@ -43,7 +43,7 @@ class Pasteee:
 
 
     def getPastesCount(self) -> int:
-        response = self.session.get(f'https://api.paste.ee/v1/pastes/{id}')
+        response = self.session.get(f'{Pasteee.API_ENDPOINT}/v1/pastes/{id}')
         return int(response.json()['total'])
 
 
@@ -68,24 +68,24 @@ class Pasteee:
         }
 
 
-        response = self.session.post('https://api.paste.ee/v1/pastes', headers=headers, json=data).json()
+        response = self.session.post(f'{Pasteee.API_ENDPOINT}/v1/pastes', headers=headers, json=data).json()
         assert response['success'], f'ERROR: {response['errors'][0]['message']}'
         return response['link']
 
 
     def deletePaste(self, id: str) -> None:
-        self.session.delete(f'https://api.paste.ee/v1/pastes/{id}')
+        self.session.delete(f'{Pasteee.API_ENDPOINT}/v1/pastes/{id}')
 
 
     def getSyntaxes(self) -> list[str]:
-        response = self.session.get('https://api.paste.ee/v1/syntaxes')
+        response = self.session.get(f'{Pasteee.API_ENDPOINT}/v1/syntaxes')
         return [i['short'] for i in response.json()['syntaxes']] 
 
 
 
     @staticmethod
     def verifyToken(token: str) -> bool:
-        response = requests.get('https://api.paste.ee/v1/users/info', headers={'X-Auth-Token': token}).json()
+        response = requests.get(f'{Pasteee.API_ENDPOINT}/v1/users/info', headers={'X-Auth-Token': token}).json()
         if response.get('type') == 'Application':
             return False
 
